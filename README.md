@@ -30,6 +30,15 @@ I implemented this to validate the FFT results.
 - **Optimization**: I used `numba` to parallelize the path generation, which makes it reasonably fast.
 - **Scheme**: Euler-Maruyama with Full Truncation for the variance process.
 
+### Benchmark Results
+
+Running on a standard laptop:
+
+| Method | Price | Time (s) | Rel Error (%) |
+| :--- | :--- | :--- | :--- |
+| **FFT (Carr-Madan)** | 9.2425 | 0.001 | - |
+| **Monte Carlo (100k)** | 9.2360 | 3.084 | 0.07% |
+
 ## Results
 
 I compared both methods. The Monte Carlo estimator converges to the FFT price as we increase the number of paths.
