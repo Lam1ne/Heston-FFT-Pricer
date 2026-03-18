@@ -14,7 +14,6 @@ def price_option_fft(
     Prices a European Call option using the Carr-Madan (1999) FFT method.
     We integrate the characteristic function using FFT.
     """
-    # 1. Discretization of the integration domain
     # eta is the step size in the frequency domain (v)
     eta = B / N
     
@@ -22,27 +21,22 @@ def price_option_fft(
     # We use 0 to N-1 for Python indexing
     v = np.arange(0, N) * eta
     
-    # 2. Calculate the characteristic function argument
     # The Carr-Madan formula requires phi(v - (alpha + 1)i)
     # We construct the complex argument u for the characteristic function
     u = v - (alpha + 1) * 1j
     
-    # 3. Compute Characteristic Function
     # phi(u) = E[exp(i * u * ln(S_T))]
     phi = model.characteristic_function(u, T)
     
-    # 4. Compute the Damped Payoff Transform psi(v)
     # psi(v) = exp(-rT) * phi(v - (alpha+1)i) / (alpha^2 + alpha - v^2 + i(2alpha + 1)v)
     denominator = (alpha**2 + alpha - v**2 + 1j * (2 * alpha + 1) * v)
     psi = np.exp(-model.r * T) * phi / denominator
     
-    # 5. Apply Simpson's Rule weights or Trapezoidal for better accuracy
     # We use Trapezoidal rule weights: [0.5, 1, 1, ..., 1, 0.5] * eta
     weights = np.ones(N)
     weights[0] = 0.5
     weights[-1] = 0.5
     
-    # 6. FFT Calculation
     # lambda_step is the step size in the log-strike domain (k)
     # lambda * eta = 2 * pi / N
     lambda_step = 2 * np.pi / (N * eta)
@@ -60,7 +54,6 @@ def price_option_fft(
     # We use the real part of the FFT output as the option price should be real.
     y = np.fft.fft(fft_input)
     
-    # 7. Post-processing
     # The result y[u] corresponds to log-strike k_u
     # C(k_u) = exp(-alpha * k_u) * real(y[u]) / pi
     
@@ -69,7 +62,6 @@ def price_option_fft(
     # We only care about the real part
     call_prices = np.exp(-alpha * k_grid) * np.real(y) / np.pi
     
-    # 8. Interpolation
     # We have prices for a grid of log-strikes k_grid.
     # We want the price for log(K).
     target_k = np.log(K)
