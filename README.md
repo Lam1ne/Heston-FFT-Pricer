@@ -1,7 +1,6 @@
 # Heston FFT Pricer Project
 
-This is my implementation of option pricing under the **Heston Stochastic Volatility Model**.
-I implemented the **Fast Fourier Transform (FFT)** method (Carr-Madan) and a **Monte Carlo** simulation to compare their efficiency and accuracy.
+A high-performance Python pricer for European Call options under the Heston Stochastic Volatility Model, featuring semi-analytical pricing via Fast Fourier Transform (Carr-Madan) and a Numba-optimized Monte Carlo engine for validation.
 
 ## Mathematical Background
 
@@ -73,7 +72,7 @@ uv run python -m src.visualization.plots
 uv run pytest
 ```
 
-## Difficulties Encountered
+## Implementation Notes
 
 - **Branch Cuts**: The standard characteristic function has issues with the complex logarithm. I had to use the "Albrecher" stable form to avoid numerical explosions.
 - **Numba Compilation**: Getting `numba` to work with the random number generation took a bit of debugging.
