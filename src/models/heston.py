@@ -51,9 +51,7 @@ class HestonModel:
         gamma = 0.5 * sigma**2
 
         # d = sqrt(beta^2 - 4*alpha*gamma)
-        # Simplifying: beta^2 - 4*alpha*gamma 
-        # = (kappa - i*rho*sigma*u)^2 - 4 * (-0.5 * (u^2 + i*u)) * (0.5 * sigma^2)
-        # = (kappa - i*rho*sigma*u)^2 + (u^2 + i*u) * sigma^2
+
         # This matches the standard D term.
         
         D = np.sqrt(beta**2 - 4 * alpha * gamma)
